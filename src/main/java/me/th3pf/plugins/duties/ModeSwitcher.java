@@ -9,10 +9,65 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.kitteh.tag.TagAPI;
 
+import java.util.HashMap;
+import java.util.Map;
+
 //import me.th3pf.plugins.duties.temporaryfixes.PotionEffectRemoval;
 
 public class ModeSwitcher
 {
+   private static final Map<String, EnableAction> enableActions = new HashMap<>();
+   private static final Map<String, DisableAction> disableActions = new HashMap<>();
+
+   static
+   {
+      enableActions.put( "Cleanups", new CleanupsAction() );
+
+      disableActions.put( "DataRemoval", new DataRemovalAction() );
+
+
+      BroadcastAction broadcastAction = new BroadcastAction();
+
+      enableActions.put( "Broadcast", broadcastAction );
+      disableActions.put( "Broadcast", broadcastAction );
+
+
+      CommandsAction commandsAction = new CommandsAction();
+
+      enableActions.put( "Commands", commandsAction );
+      disableActions.put( "Commands", commandsAction );
+
+
+      CommandsByConsoleAction commandsByConsoleAction = new CommandsByConsoleAction();
+
+      enableActions.put( "CommandsByConsole", commandsByConsoleAction );
+      disableActions.put( "CommandsByConsole", commandsByConsoleAction );
+
+
+      MemoryImportExportAction memoryImportExportAction = new MemoryImportExportAction();
+
+      enableActions.put( "MemoryImport", memoryImportExportAction );
+      disableActions.put( "MemoryExport", memoryImportExportAction );
+
+
+      MessagesAction messagesAction = new MessagesAction();
+
+      enableActions.put( "Messages", messagesAction );
+      disableActions.put( "Messages", messagesAction );
+
+
+      TemporaryGroupsAction temporaryGroupsAction = new TemporaryGroupsAction();
+
+      enableActions.put( "TemporaryGroups", temporaryGroupsAction );
+      disableActions.put( "TemporaryGroups", temporaryGroupsAction );
+
+
+      TemporaryPermissionsAction temporaryPermissionsAction = new TemporaryPermissionsAction();
+
+      enableActions.put( "TemporaryPermissions", temporaryPermissionsAction );
+      disableActions.put( "TemporaryPermissions", temporaryPermissionsAction );
+   }
+
    private Player player;
 
    public ModeSwitcher( Player player )
@@ -44,40 +99,16 @@ public class ModeSwitcher
 
          for( String module : Duties.Config.GetStringList( "Actions.onEnable.Order" ) )
          {
+            if( !enableActions.containsKey( module ) )
+            {
+               Duties.GetInstance().LogMessage( "Invalid action: " + module );
+
+               continue;
+            }
+
             try
             {
-               if( module.equalsIgnoreCase( "MemoryImport" ) )
-               {
-                  new MemoryImportExportAction().onEnable( player );
-               }
-               else if( module.equalsIgnoreCase( "TemporaryPermissions" ) )
-               {
-                  new TemporaryPermissionsAction().onEnable( player );
-               }
-               else if( module.equalsIgnoreCase( "TemporaryGroups" ) )
-               {
-                  new TemporaryGroupsAction().onEnable( player );
-               }
-               else if( module.equalsIgnoreCase( "Cleanups" ) )
-               {
-                  new CleanupsAction().onEnable( player );
-               }
-               else if( module.equalsIgnoreCase( "CommandsByConsole" ) )
-               {
-                  new CommandsByConsoleAction().onEnable( player );
-               }
-               else if( module.equalsIgnoreCase( "Commands" ) )
-               {
-                  new CommandsAction().onEnable( player );
-               }
-               else if( module.equalsIgnoreCase( "Messages" ) )
-               {
-                  new MessagesAction().onEnable( player );
-               }
-               else if( module.equalsIgnoreCase( "Broadcast" ) )
-               {
-                  new BroadcastAction().onEnable( player );
-               }
+               enableActions.get( module ).onEnable( player );
             }
             catch( ActionException ex )
             {
@@ -134,40 +165,16 @@ public class ModeSwitcher
 
          for( String module : Duties.Config.GetStringList( "Actions.onDisable.Order" ) )
          {
+            if( !disableActions.containsKey( module ) )
+            {
+               Duties.GetInstance().LogMessage( "Invalid action: " + module );
+
+               continue;
+            }
+
             try
             {
-               if( module.equalsIgnoreCase( "MemoryExport" ) )
-               {
-                  new MemoryImportExportAction().onDisable( player );
-               }
-               else if( module.equalsIgnoreCase( "CommandsByConsole" ) )
-               {
-                  new CommandsByConsoleAction().onDisable( player );
-               }
-               else if( module.equalsIgnoreCase( "Commands" ) )
-               {
-                  new CommandsAction().onDisable( player );
-               }
-               else if( module.equalsIgnoreCase( "TemporaryGroups" ) )
-               {
-                  new TemporaryGroupsAction().onDisable( player );
-               }
-               else if( module.equalsIgnoreCase( "TemporaryPermissions" ) )
-               {
-                  new TemporaryPermissionsAction().onDisable( player );
-               }
-               else if( module.equalsIgnoreCase( "DataRemoval" ) )
-               {
-                  new DataRemovalAction().onDisable( player );
-               }
-               else if( module.equalsIgnoreCase( "Messages" ) )
-               {
-                  new MessagesAction().onDisable( player );
-               }
-               else if( module.equalsIgnoreCase( "Broadcast" ) )
-               {
-                  new BroadcastAction().onDisable( player );
-               }
+               disableActions.get( module ).onDisable( player );
             }
             catch( ActionException ex )
             {
