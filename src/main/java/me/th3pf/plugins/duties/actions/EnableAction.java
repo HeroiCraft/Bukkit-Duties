@@ -4,5 +4,5 @@ import org.bukkit.entity.Player;
 
 public interface EnableAction
 {
-   boolean onEnable( Player player );
+   void onEnable( Player player ) throws ActionException;
 }

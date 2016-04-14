@@ -9,10 +9,10 @@ import java.util.ArrayList;
 public class TemporaryPermissionsAction implements Action
 {
    @Override
-   public boolean onEnable( Player player )
+   public void onEnable( Player player ) throws ActionException
    {
       //Adds temporary permissions
-      if( Duties.Config.GetStringList( "Actions.TemporaryPermissions" ) == null ) return true;
+      if( Duties.Config.GetStringList( "Actions.TemporaryPermissions" ) == null ) return;
 
       try
       {
@@ -49,7 +49,7 @@ public class TemporaryPermissionsAction implements Action
                {
                   if( !player.isOnline() )
                   {
-                     return true;
+                     return;
                   }
                   else
                   {
@@ -63,21 +63,18 @@ public class TemporaryPermissionsAction implements Action
                Duties.GetInstance().LogMessage( "Error occured: " + exception.getMessage() + ". Ignoring it!" );
             }
          }
-
-         return true;
       }
       catch( Exception exception )
       {
-         Duties.GetInstance().LogMessage( "Failed while enabling temporary permissions: " + exception.getMessage() );
-         return false;
+         throw new ActionException( "Failed while enabling temporary permissions: ", exception );
       }
    }
 
    @Override
-   public boolean onDisable( Player player )
+   public void onDisable( Player player ) throws ActionException
    {
       //Removes temporary permissions
-      if( Duties.Config.GetStringList( "Actions.TemporaryPermissions" ) == null ) return true;
+      if( Duties.Config.GetStringList( "Actions.TemporaryPermissions" ) == null ) return;
       try
       {
          int count = 0;
@@ -112,7 +109,7 @@ public class TemporaryPermissionsAction implements Action
                {
                   if( !player.isOnline() )
                   {
-                     return true;
+                     return;
                   }
                   else
                   {
@@ -128,13 +125,10 @@ public class TemporaryPermissionsAction implements Action
 
             count++;
          }
-
-         return true;
       }
       catch( Exception exception )
       {
-         Duties.GetInstance().LogMessage( "Failed while removing temporary permissions: " + exception.getMessage() );
-         return false;
+         throw new ActionException( "Failed while removing temporary permissions: ", exception );
       }
    }
 }

@@ -44,61 +44,46 @@ public class ModeSwitcher
 
          for( String module : Duties.Config.GetStringList( "Actions.onEnable.Order" ) )
          {
-            if( module.equalsIgnoreCase( "MemoryImport" ) )
+            try
             {
-               if( !new MemoryImportExportAction().onEnable( player ) )
+               if( module.equalsIgnoreCase( "MemoryImport" ) )
                {
-                  fail = true;
+                  new MemoryImportExportAction().onEnable( player );
+               }
+               else if( module.equalsIgnoreCase( "TemporaryPermissions" ) )
+               {
+                  new TemporaryPermissionsAction().onEnable( player );
+               }
+               else if( module.equalsIgnoreCase( "TemporaryGroups" ) )
+               {
+                  new TemporaryGroupsAction().onEnable( player );
+               }
+               else if( module.equalsIgnoreCase( "Cleanups" ) )
+               {
+                  new CleanupsAction().onEnable( player );
+               }
+               else if( module.equalsIgnoreCase( "CommandsByConsole" ) )
+               {
+                  new CommandsByConsoleAction().onEnable( player );
+               }
+               else if( module.equalsIgnoreCase( "Commands" ) )
+               {
+                  new CommandsAction().onEnable( player );
+               }
+               else if( module.equalsIgnoreCase( "Messages" ) )
+               {
+                  new MessagesAction().onEnable( player );
+               }
+               else if( module.equalsIgnoreCase( "Broadcast" ) )
+               {
+                  new BroadcastAction().onEnable( player );
                }
             }
-            else if( module.equalsIgnoreCase( "TemporaryPermissions" ) )
+            catch( ActionException ex )
             {
-               if( !new TemporaryPermissionsAction().onEnable( player ) )
-               {
-                  fail = true;
-               }
-            }
-            else if( module.equalsIgnoreCase( "TemporaryGroups" ) )
-            {
-               if( !new TemporaryGroupsAction().onEnable( player ) )
-               {
-                  fail = true;
-               }
-            }
-            else if( module.equalsIgnoreCase( "Cleanups" ) )
-            {
-               if( !new CleanupsAction().onEnable( player ) )
-               {
-                  fail = true;
-               }
-            }
-            else if( module.equalsIgnoreCase( "CommandsByConsole" ) )
-            {
-               if( !new CommandsByConsoleAction().onEnable( player ) )
-               {
-                  fail = true;
-               }
-            }
-            else if( module.equalsIgnoreCase( "Commands" ) )
-            {
-               if( !new CommandsAction().onEnable( player ) )
-               {
-                  fail = true;
-               }
-            }
-            else if( module.equalsIgnoreCase( "Messages" ) )
-            {
-               if( !new MessagesAction().onEnable( player ) )
-               {
-                  fail = true;
-               }
-            }
-            else if( module.equalsIgnoreCase( "Broadcast" ) )
-            {
-               if( !new BroadcastAction().onEnable( player ) )
-               {
-                  fail = true;
-               }
+               fail = true;
+
+               ex.printStackTrace();
             }
          }
 
@@ -149,61 +134,46 @@ public class ModeSwitcher
 
          for( String module : Duties.Config.GetStringList( "Actions.onDisable.Order" ) )
          {
-            if( module.equalsIgnoreCase( "MemoryExport" ) )
+            try
             {
-               if( !new MemoryImportExportAction().onDisable( player ) )
+               if( module.equalsIgnoreCase( "MemoryExport" ) )
                {
-                  fail = true;
+                  new MemoryImportExportAction().onDisable( player );
+               }
+               else if( module.equalsIgnoreCase( "CommandsByConsole" ) )
+               {
+                  new CommandsByConsoleAction().onDisable( player );
+               }
+               else if( module.equalsIgnoreCase( "Commands" ) )
+               {
+                  new CommandsAction().onDisable( player );
+               }
+               else if( module.equalsIgnoreCase( "TemporaryGroups" ) )
+               {
+                  new TemporaryGroupsAction().onDisable( player );
+               }
+               else if( module.equalsIgnoreCase( "TemporaryPermissions" ) )
+               {
+                  new TemporaryPermissionsAction().onDisable( player );
+               }
+               else if( module.equalsIgnoreCase( "DataRemoval" ) )
+               {
+                  new DataRemovalAction().onDisable( player );
+               }
+               else if( module.equalsIgnoreCase( "Messages" ) )
+               {
+                  new MessagesAction().onDisable( player );
+               }
+               else if( module.equalsIgnoreCase( "Broadcast" ) )
+               {
+                  new BroadcastAction().onDisable( player );
                }
             }
-            else if( module.equalsIgnoreCase( "CommandsByConsole" ) )
+            catch( ActionException ex )
             {
-               if( !new CommandsByConsoleAction().onDisable( player ) )
-               {
-                  fail = true;
-               }
-            }
-            else if( module.equalsIgnoreCase( "Commands" ) )
-            {
-               if( !new CommandsAction().onDisable( player ) )
-               {
-                  fail = true;
-               }
-            }
-            else if( module.equalsIgnoreCase( "TemporaryGroups" ) )
-            {
-               if( !new TemporaryGroupsAction().onDisable( player ) )
-               {
-                  fail = true;
-               }
-            }
-            else if( module.equalsIgnoreCase( "TemporaryPermissions" ) )
-            {
-               if( !new TemporaryPermissionsAction().onDisable( player ) )
-               {
-                  fail = true;
-               }
-            }
-            else if( module.equalsIgnoreCase( "DataRemoval" ) )
-            {
-               if( !new DataRemovalAction().onDisable( player ) )
-               {
-                  fail = true;
-               }
-            }
-            else if( module.equalsIgnoreCase( "Messages" ) )
-            {
-               if( !new MessagesAction().onDisable( player ) )
-               {
-                  fail = true;
-               }
-            }
-            else if( module.equalsIgnoreCase( "Broadcast" ) )
-            {
-               if( !new BroadcastAction().onDisable( player ) )
-               {
-                  fail = true;
-               }
+               fail = true;
+
+               ex.printStackTrace();
             }
          }
 

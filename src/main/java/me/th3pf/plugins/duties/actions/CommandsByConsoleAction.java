@@ -24,18 +24,14 @@ public class CommandsByConsoleAction implements Action
    }
 
    @Override
-   public boolean onEnable( Player player )
+   public void onEnable( Player player )
    {
       consoleCommands( player, Duties.Config.GetStringList( "Actions.onEnable.CommandsByConsole" ) );
-
-      return true;
    }
 
    @Override
-   public boolean onDisable( Player player )
+   public void onDisable( Player player )
    {
       consoleCommands( player, Duties.Config.GetStringList( "Actions.onDisable.CommandsByConsole" ) );
-
-      return true;
    }
 }

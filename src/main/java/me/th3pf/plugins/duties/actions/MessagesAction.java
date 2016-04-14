@@ -18,18 +18,14 @@ public class MessagesAction implements Action
    }
 
    @Override
-   public boolean onEnable( Player player )
+   public void onEnable( Player player )
    {
       messages( player, Duties.Config.GetStringList( "Actions.onEnable.Messages" ) );
-
-      return true;
    }
 
    @Override
-   public boolean onDisable( Player player )
+   public void onDisable( Player player )
    {
       messages( player, Duties.Config.GetStringList( "Actions.onDisable.Messages" ) );
-
-      return true;
    }
 }

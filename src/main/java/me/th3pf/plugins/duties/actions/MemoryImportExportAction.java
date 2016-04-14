@@ -8,23 +8,21 @@ import org.bukkit.potion.PotionEffect;
 public class MemoryImportExportAction implements Action
 {
    @Override
-   public boolean onEnable( Player player )
+   public void onEnable( Player player ) throws ActionException
    {
       //Importing to memory
       try
       {
          Duties.Memories.put( player.getName(), new Memory( player, 0 ) );
-         return true;
       }
       catch( Exception exception )
       {
-         Duties.GetInstance().LogMessage( "Failed while importing player data in to memory: " + exception.getMessage() );
-         return false;
+         throw new ActionException( "Failed while importing player data in to memory: ", exception );
       }
    }
 
    @Override
-   public boolean onDisable( Player player )
+   public void onDisable( Player player ) throws ActionException
    {
       //Resets player data from memory
       try
@@ -71,13 +69,10 @@ public class MemoryImportExportAction implements Action
          }
 
          player.setTicksLived( Duties.Memories.get( player.getName() ).TicksLived );
-
-         return true;
       }
       catch( Exception exception )
       {
-         Duties.GetInstance().LogMessage( "Failed while reseting player data from memory: " + exception.getMessage() );
-         return false;
+         throw new ActionException( "Failed while reseting player data from memory: ", exception );
       }
    }
 }

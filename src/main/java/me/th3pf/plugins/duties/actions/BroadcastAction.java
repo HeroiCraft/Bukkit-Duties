@@ -33,18 +33,14 @@ public class BroadcastAction implements Action
    }
 
    @Override
-   public boolean onEnable( Player player )
+   public void onEnable( Player player )
    {
       broadcast( player, Duties.Messages.GetString( "Client.Broadcast.Enabled" ) );
-
-      return true;
    }
 
    @Override
-   public boolean onDisable( Player player )
+   public void onDisable( Player player )
    {
       broadcast( player, Duties.Messages.GetString( "Client.Broadcast.Disabled" ) );
-
-      return true;
    }
 }

@@ -8,10 +8,10 @@ import org.bukkit.util.Vector;
 public class CleanupsAction implements EnableAction
 {
    @Override
-   public boolean onEnable( Player player )
+   public void onEnable( Player player ) throws ActionException
    {
       //Cleanups
-      if( Duties.Config.GetStringList( "Actions.onEnable.Cleanups" ) == null ) return true;
+      if( Duties.Config.GetStringList( "Actions.onEnable.Cleanups" ) == null ) return;
       try
       {
          for( String task : Duties.Config.GetStringList( "Actions.onEnable.Cleanups" ) )
@@ -70,12 +70,10 @@ public class CleanupsAction implements EnableAction
             else if( task.equalsIgnoreCase( "TicksLived" ) )
                player.setTicksLived( 1 );
          }
-         return true;
       }
       catch( Exception exception )
       {
-         Duties.GetInstance().LogMessage( "Failed while reading cleanup tasks: " + exception.getMessage() );
-         return false;
+         throw new ActionException( "Failed while reading cleanup tasks: ", exception );
       }
    }
 }

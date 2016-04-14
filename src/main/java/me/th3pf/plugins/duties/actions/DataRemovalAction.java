@@ -6,18 +6,16 @@ import org.bukkit.entity.Player;
 public class DataRemovalAction implements DisableAction
 {
    @Override
-   public boolean onDisable( Player player )
+   public void onDisable( Player player ) throws ActionException
    {
       //Removes player data from memory
       try
       {
          Duties.Memories.remove( player.getName() );
-         return true;
       }
       catch( Exception exception )
       {
-         Duties.GetInstance().LogMessage( "Failed while removing player data from memory: " + exception.getMessage() );
-         return false;
+         throw new ActionException( "Failed while removing player data from memory: ", exception );
       }
    }
 }

@@ -7,14 +7,14 @@ import org.bukkit.entity.Player;
 public class TemporaryGroupsAction implements Action
 {
    @Override
-   public boolean onEnable( Player player )
+   public void onEnable( Player player ) throws ActionException
    {
       if( !Duties.Config.GetBoolean( "Vault.Permissions" ) || !Duties.GetInstance().getServer().getPluginManager().isPluginEnabled( "Vault" ) )
-         return true;
+         return;
 
       try
       {
-         if( Duties.Config.GetStringList( "Actions.TemporaryGroups" ) == null ) return true;
+         if( Duties.Config.GetStringList( "Actions.TemporaryGroups" ) == null ) return;
          for( String group : Duties.Config.GetStringList( "Actions.TemporaryGroups" ) )
          {
             try
@@ -40,25 +40,22 @@ public class TemporaryGroupsAction implements Action
 
             }
          }
-
-         return true;
       }
       catch( Exception exception )
       {
-         Duties.GetInstance().LogMessage( "Failed while enabling temporary groups: " + exception.getMessage() );
-         return false;
+         throw new ActionException( "Failed while enabling temporary groups: ", exception );
       }
    }
 
    @Override
-   public boolean onDisable( Player player )
+   public void onDisable( Player player ) throws ActionException
    {
       if( !Duties.Config.GetBoolean( "Vault.Permissions" ) || !Duties.GetInstance().getServer().getPluginManager().isPluginEnabled( "Vault" ) )
-         return true;
+         return;
 
       try
       {
-         if( Duties.Config.GetStringList( "Actions.TemporaryGroups" ) == null ) return true;
+         if( Duties.Config.GetStringList( "Actions.TemporaryGroups" ) == null ) return;
          for( String group : Duties.Config.GetStringList( "Actions.TemporaryGroups" ) )
          {
             try
@@ -83,13 +80,10 @@ public class TemporaryGroupsAction implements Action
                Duties.GetInstance().LogMessage( "Error occured: " + exception.getMessage() + ". Ignoring it!" );
             }
          }
-
-         return true;
       }
       catch( Exception exception )
       {
-         Duties.GetInstance().LogMessage( "Failed while disabling temporary groups: " + exception.getMessage() );
-         return false;
+         throw new ActionException( "Failed while disabling temporary groups: ", exception );
       }
    }
 }
