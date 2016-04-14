@@ -18,7 +18,7 @@ public class PlayerQuitListener implements Listener
          return;
       }
 
-      new ModeSwitcher( event.getPlayer() ).DisableDutyMode();
+      ModeSwitcher.DisableDutyMode( event.getPlayer() );
    }
 
 }

@@ -2,6 +2,7 @@ package me.th3pf.plugins.duties.commandexecutors;
 
 import me.th3pf.plugins.duties.Duties;
 import me.th3pf.plugins.duties.ModeSwitcher;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,16 +28,11 @@ public class DutymodeCommandExecutor implements CommandExecutor
             }
             if( sender instanceof Player )
             {
-               ModeSwitcher actions = new ModeSwitcher( (Player) sender );
-
                if( !Duties.Memories.containsKey( sender.getName() ) )
-               {
-                  TellSender( sender, updates.Enable, actions.EnableDutyMode() );
-               }
+                  TellSender( sender, updates.Enable, ModeSwitcher.EnableDutyMode( (Player) sender ) );
                else
-               {
-                  TellSender( sender, updates.Disable, actions.DisableDutyMode() );
-               }
+                  TellSender( sender, updates.Disable, ModeSwitcher.DisableDutyMode( (Player) sender ) );
+
                return true;
             }
             else
@@ -84,17 +80,12 @@ public class DutymodeCommandExecutor implements CommandExecutor
                   return true;
                }
 
-               ModeSwitcher actions = new ModeSwitcher( Duties.GetInstance().getServer().getPlayer( args[1] ).getPlayer() );
+               Player target = Bukkit.getPlayer( args[1] );
 
-               if( !Duties.Memories.containsKey( Duties.GetInstance().getServer().getPlayer( args[1] ).getName() ) )
-               {
-                  TellSender( sender, updates.EnableOfOther, actions.EnableDutyMode() );
-               }
+               if( !Duties.Memories.containsKey( Bukkit.getPlayer( args[1] ).getName() ) )
+                  TellSender( sender, updates.EnableOfOther, ModeSwitcher.EnableDutyMode( target ) );
                else
-               {
-                  TellSender( sender, updates.DisableOfOther, actions.DisableDutyMode() );
-               }
-
+                  TellSender( sender, updates.DisableOfOther, ModeSwitcher.DisableDutyMode( target ) );
 
                return true;
             }
@@ -107,17 +98,12 @@ public class DutymodeCommandExecutor implements CommandExecutor
                   TellSender( sender, updates.MissingPermission, true );
                   return true;
                }
-               ModeSwitcher actions = new ModeSwitcher( (Player) sender );
 
                if( !Duties.Memories.containsKey( sender.getName() ) )
-               {
-                  TellSender( sender, updates.Enable, actions.EnableDutyMode() );
-               }
+                  TellSender( sender, updates.Enable, ModeSwitcher.EnableDutyMode( (Player) sender ) );
                else
-               {
-                  TellSender( sender, updates.Disable, actions.DisableDutyMode() );
+                  TellSender( sender, updates.Disable, ModeSwitcher.DisableDutyMode( (Player) sender ) );
 
-               }
                return true;
             }
             else
@@ -171,8 +157,7 @@ public class DutymodeCommandExecutor implements CommandExecutor
                   return true;
                }
 
-               ModeSwitcher actions = new ModeSwitcher( Duties.GetInstance().getServer().getPlayer( args[1] ).getPlayer() );
-               TellSender( sender, updates.EnableOfOther, actions.EnableDutyMode() );
+               TellSender( sender, updates.EnableOfOther, ModeSwitcher.EnableDutyMode( Bukkit.getPlayer( args[1] ) ) );
 
                return true;
             }
@@ -190,8 +175,7 @@ public class DutymodeCommandExecutor implements CommandExecutor
             }
             if( sender instanceof Player )
             {
-               ModeSwitcher actions = new ModeSwitcher( (Player) sender );
-               TellSender( sender, updates.Enable, actions.EnableDutyMode() );
+               TellSender( sender, updates.Enable, ModeSwitcher.EnableDutyMode( (Player) sender ) );
 
                return true;
             }
@@ -246,9 +230,7 @@ public class DutymodeCommandExecutor implements CommandExecutor
                   return true;
                }
 
-               ModeSwitcher actions = new ModeSwitcher( Duties.GetInstance().getServer().getPlayer( args[1] ).getPlayer() );
-
-               TellSender( sender, updates.DisableOfOther, actions.DisableDutyMode() );
+               TellSender( sender, updates.DisableOfOther, ModeSwitcher.DisableDutyMode( Duties.GetInstance().getServer().getPlayer( args[1] ).getPlayer() ) );
 
                return true;
             }
@@ -267,8 +249,7 @@ public class DutymodeCommandExecutor implements CommandExecutor
 
             if( sender instanceof Player )
             {
-               ModeSwitcher actions = new ModeSwitcher( (Player) sender );
-               TellSender( sender, updates.Disable, actions.DisableDutyMode() );
+               TellSender( sender, updates.Disable, ModeSwitcher.DisableDutyMode( (Player) sender ) );
 
                return true;
             }
@@ -512,7 +493,7 @@ public class DutymodeCommandExecutor implements CommandExecutor
                continue;
             }
 
-            if( !new ModeSwitcher( Duties.GetInstance().getServer().getPlayerExact( playerName ) ).DisableDutyMode() )
+            if( !ModeSwitcher.DisableDutyMode( Duties.GetInstance().getServer().getPlayerExact( playerName ) ) )
             {
                Duties.GetInstance().LogMessage( "Couldn't disable duty mode for " + playerName + "." );
             }

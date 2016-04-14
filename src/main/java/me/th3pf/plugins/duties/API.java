@@ -70,14 +70,14 @@ public class API
    {
       if( !Duties.Addons.containsKey( registredPlugin ) ) return;
 
-      new ModeSwitcher( player ).EnableDutyMode();
+      ModeSwitcher.EnableDutyMode( player );
    }
 
    public void DisableDutyModeForPlayer( Player player )
    {
       if( !Duties.Addons.containsKey( registredPlugin ) ) return;
 
-      new ModeSwitcher( player ).DisableDutyMode();
+      ModeSwitcher.DisableDutyMode( player );
    }
 
    public boolean IsPlayerInDutyMode( String player )

@@ -4,6 +4,7 @@ import me.th3pf.plugins.duties.adapters.VaultAdapter;
 import me.th3pf.plugins.duties.commandexecutors.DutiesCommandExecutor;
 import me.th3pf.plugins.duties.commandexecutors.DutymodeCommandExecutor;
 import me.th3pf.plugins.duties.listeners.*;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -96,7 +97,7 @@ public class Duties extends JavaPlugin
          {
             if( Duties.GetInstance().getServer().getOfflinePlayer( playerName ).isOnline() )
             {
-               if( !new ModeSwitcher( Duties.GetInstance().getServer().getPlayerExact( playerName ) ).DisableDutyMode() )
+               if( !ModeSwitcher.DisableDutyMode( Bukkit.getPlayerExact( playerName ) ) )
                {
                   LogMessage( "Couldn't disable duty mode for " + playerName + "." );
                }
@@ -107,7 +108,7 @@ public class Duties extends JavaPlugin
                Player player = Memories.get( playerName ).Player;
 
                player.loadData();
-               if( !new ModeSwitcher( player ).DisableDutyMode() )
+               if( !ModeSwitcher.DisableDutyMode( player ) )
                {
                   LogMessage( "Dutymode inactivation for " + playerName + " couldn't complete. Sorry for the inconvience." );
                }
@@ -119,7 +120,7 @@ public class Duties extends JavaPlugin
       {
          for( String playerName : keySet )
          {
-            if( !new ModeSwitcher( Duties.GetInstance().getServer().getPlayerExact( playerName ) ).DisableDutyMode() )
+            if( !ModeSwitcher.DisableDutyMode( Bukkit.getPlayerExact( playerName ) ) )
             {
                LogMessage( "Dutymode inactivation for " + playerName + " couldn't complete. Sorry for the inconvience." );
             }

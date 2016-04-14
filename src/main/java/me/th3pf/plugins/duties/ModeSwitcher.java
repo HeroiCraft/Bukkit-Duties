@@ -68,18 +68,11 @@ public class ModeSwitcher
       disableActions.put( "TemporaryPermissions", temporaryPermissionsAction );
    }
 
-   private Player player;
-
-   public ModeSwitcher( Player player )
-   {
-      this.player = player;
-   }
-
-   public boolean EnableDutyMode()
+   public static boolean EnableDutyMode( Player player )
    {
       try
       {
-         DutyModePreEnabledEvent event = new DutyModePreEnabledEvent( this.player );
+         DutyModePreEnabledEvent event = new DutyModePreEnabledEvent( player );
          Bukkit.getServer().getPluginManager().callEvent( event );
          if( event.getCancelled() ) return false;
 
@@ -118,8 +111,8 @@ public class ModeSwitcher
             }
          }
 
-         if( Duties.GetInstance().pluginManager.isPluginEnabled( "TagAPI" ) && this.player.isOnline() )
-            TagAPI.refreshPlayer( this.player );
+         if( Duties.GetInstance().pluginManager.isPluginEnabled( "TagAPI" ) && player.isOnline() )
+            TagAPI.refreshPlayer( player );
 
          //Returns that duty mode activation failed
          if( fail == true )
@@ -130,7 +123,7 @@ public class ModeSwitcher
          {
             Duties.GetInstance().LogMessage( Duties.Messages.GetString( "Server.Enabled" ).replaceAll( "%PLAYER_NAME%", player.getName() ) );
 
-            Bukkit.getServer().getPluginManager().callEvent( new DutyModeEnabledEvent( this.player ) );
+            Bukkit.getServer().getPluginManager().callEvent( new DutyModeEnabledEvent( player ) );
             return true;
          }
       }
@@ -141,11 +134,11 @@ public class ModeSwitcher
       }
    }
 
-   public boolean DisableDutyMode()
+   public static boolean DisableDutyMode( Player player )
    {
       try
       {
-         DutyModePreDisabledEvent event = new DutyModePreDisabledEvent( this.player );
+         DutyModePreDisabledEvent event = new DutyModePreDisabledEvent( player );
          Bukkit.getServer().getPluginManager().callEvent( event );
          if( event.getCancelled() ) return false;
 
@@ -184,8 +177,8 @@ public class ModeSwitcher
             }
          }
 
-         if( Duties.GetInstance().pluginManager.isPluginEnabled( "TagAPI" ) && this.player.isOnline() )
-            TagAPI.refreshPlayer( this.player );
+         if( Duties.GetInstance().pluginManager.isPluginEnabled( "TagAPI" ) && player.isOnline() )
+            TagAPI.refreshPlayer( player );
 
          //Returns that duty mode inactivation failed
          if( fail == true )
@@ -196,7 +189,7 @@ public class ModeSwitcher
          {
             Duties.GetInstance().LogMessage( Duties.Messages.GetString( "Server.Disabled" ).replaceAll( "%PLAYER_NAME%", player.getName() ) );
 
-            Bukkit.getServer().getPluginManager().callEvent( new DutyModeDisabledEvent( this.player ) );
+            Bukkit.getServer().getPluginManager().callEvent( new DutyModeDisabledEvent( player ) );
             return true;
          }
       }
