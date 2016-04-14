@@ -198,12 +198,11 @@ public class ModeSwitcher
 				try
 				{
 					for(String command : Duties.Config.GetStringList("Actions.onEnable.Commands"))
-					{	
+					{
 						String parsedCommand = ("/".equals(command.charAt(0)) ? command.substring(1) : command)
 								.replaceAll("%PLAYER_NAME%", player.getName())
 								.replaceAll("%PLAYER_GAMEMODE%", player.getGameMode().toString());
 						player.performCommand(parsedCommand);
-						));
 					}
 					
 					return true;
@@ -611,7 +610,6 @@ public class ModeSwitcher
 								.replaceAll("%PLAYER_NAME%", player.getName())
 								.replaceAll("%PLAYER_GAMEMODE%", player.getGameMode().toString());
 						player.performCommand(parsedCommand);
-						));
 					}
 					
 					return true;
