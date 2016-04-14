@@ -4,15 +4,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import java.util.List;
+
 public class DutyModePreEnabledEvent extends Event
 {
    private static final HandlerList handlers = new HandlerList();
-   private Player player;
    private boolean cancelled = false;
 
-   public DutyModePreEnabledEvent( Player player )
+   private Player player;
+   private List<String> actions;
+
+   public DutyModePreEnabledEvent( Player player, List<String> actions )
    {
       this.player = player;
+      this.actions = actions;
    }
 
    public HandlerList getHandlers()
@@ -28,6 +33,11 @@ public class DutyModePreEnabledEvent extends Event
    public Player getPlayer()
    {
       return this.player;
+   }
+
+   public List<String> getActions()
+   {
+      return this.actions;
    }
 
    public boolean getCancelled()

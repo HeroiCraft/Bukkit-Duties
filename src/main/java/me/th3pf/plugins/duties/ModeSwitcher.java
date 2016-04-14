@@ -49,7 +49,7 @@ public class ModeSwitcher
    {
       try
       {
-         DutyModePreEnabledEvent event = new DutyModePreEnabledEvent( player );
+         DutyModePreEnabledEvent event = new DutyModePreEnabledEvent( player, Duties.Config.GetStringList( "Actions.onEnable.Order" ) );
          Bukkit.getServer().getPluginManager().callEvent( event );
          if( event.getCancelled() ) return false;
 
@@ -67,7 +67,7 @@ public class ModeSwitcher
 
          boolean fail = false;
 
-         for( String module : Duties.Config.GetStringList( "Actions.onEnable.Order" ) )
+         for( String module : event.getActions() )
          {
             if( !enableActions.containsKey( module ) )
             {
@@ -115,7 +115,7 @@ public class ModeSwitcher
    {
       try
       {
-         DutyModePreDisabledEvent event = new DutyModePreDisabledEvent( player );
+         DutyModePreDisabledEvent event = new DutyModePreDisabledEvent( player, Duties.Config.GetStringList( "Actions.onDisable.Order" ) );
          Bukkit.getServer().getPluginManager().callEvent( event );
          if( event.getCancelled() ) return false;
 
@@ -133,7 +133,7 @@ public class ModeSwitcher
 
          boolean fail = false;
 
-         for( String module : Duties.Config.GetStringList( "Actions.onDisable.Order" ) )
+         for( String module : event.getActions() )
          {
             if( !disableActions.containsKey( module ) )
             {
