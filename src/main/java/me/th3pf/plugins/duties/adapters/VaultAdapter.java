@@ -1,4 +1,4 @@
-private package me.th3pf.plugins.duties.adapters;
+package me.th3pf.plugins.duties.adapters;
 
 import me.th3pf.plugins.duties.Duties;
 import net.milkbowl.vault.chat.Chat;

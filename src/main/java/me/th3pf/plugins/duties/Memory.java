@@ -1,4 +1,4 @@
-private package me.th3pf.plugins.duties;
+package me.th3pf.plugins.duties;
 
 import java.util.Collection;
 import java.util.List;

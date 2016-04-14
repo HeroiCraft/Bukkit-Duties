@@ -1,4 +1,4 @@
-public package me.th3pf.plugins.duties.events;
+package me.th3pf.plugins.duties.events;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

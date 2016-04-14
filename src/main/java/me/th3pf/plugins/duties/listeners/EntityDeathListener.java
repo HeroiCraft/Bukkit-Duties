@@ -1,4 +1,4 @@
-private package me.th3pf.plugins.duties.listeners;
+package me.th3pf.plugins.duties.listeners;
 
 import me.th3pf.plugins.duties.Duties;
 
