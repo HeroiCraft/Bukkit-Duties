@@ -46,7 +46,7 @@ public class ModeSwitcher
          {
             if( module.equalsIgnoreCase( "MemoryImport" ) )
             {
-               if( !new MemoryImportAction().onEnable( player ) )
+               if( !new MemoryImportExportAction().onEnable( player ) )
                {
                   fail = true;
                }
@@ -151,7 +151,7 @@ public class ModeSwitcher
          {
             if( module.equalsIgnoreCase( "MemoryExport" ) )
             {
-               if( !new MemoryExportAction().onDisable( player ) )
+               if( !new MemoryImportExportAction().onDisable( player ) )
                {
                   fail = true;
                }
