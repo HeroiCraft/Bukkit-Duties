@@ -1,8 +1,8 @@
 name: Duties
-version: 1.4.3
+version: ${version}
 description: Saves your survival state and let's you revert back it!
 author: TH3PF
-authors: [TH3PF] 
+authors: [TH3PF]
 website: http://dev.bukkit.org/server-mods/duties/
 main: me.th3pf.plugins.duties.Duties
 softdepend: [Vault,TagAPI]
@@ -20,7 +20,7 @@ permissions:
         default: op
         children:
             duties.help: true
-            duties.purge: true           
+            duties.purge: true
             duties.list: true
             duties.listall: true
             duties.reload: true
