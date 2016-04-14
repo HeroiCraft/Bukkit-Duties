@@ -19,53 +19,30 @@ public class ModeSwitcher
    private static final Map<String, EnableAction> enableActions = new HashMap<>();
    private static final Map<String, DisableAction> disableActions = new HashMap<>();
 
+   private static void addAction( String id, Object action )
+   {
+      if( action instanceof EnableAction )
+         enableActions.put( id, (EnableAction) action );
+
+      if( action instanceof DisableAction )
+         disableActions.put( id, (DisableAction) action );
+   }
+
    static
    {
-      enableActions.put( "Cleanups", new CleanupsAction() );
+      addAction( "Broadcast", new BroadcastAction() );
+      addAction( "Cleanups", new CleanupsAction() );
+      addAction( "Commands", new CommandsAction() );
+      addAction( "CommandsByConsole", new CommandsByConsoleAction() );
+      addAction( "DataRemoval", new DataRemovalAction() );
+      addAction( "Messages", new MessagesAction() );
+      addAction( "TemporaryGroups", new TemporaryGroupsAction() );
+      addAction( "TemporaryPermissions", new TemporaryPermissionsAction() );
 
-      disableActions.put( "DataRemoval", new DataRemovalAction() );
+      MemoryImportExportAction memoryAction = new MemoryImportExportAction();
 
-
-      BroadcastAction broadcastAction = new BroadcastAction();
-
-      enableActions.put( "Broadcast", broadcastAction );
-      disableActions.put( "Broadcast", broadcastAction );
-
-
-      CommandsAction commandsAction = new CommandsAction();
-
-      enableActions.put( "Commands", commandsAction );
-      disableActions.put( "Commands", commandsAction );
-
-
-      CommandsByConsoleAction commandsByConsoleAction = new CommandsByConsoleAction();
-
-      enableActions.put( "CommandsByConsole", commandsByConsoleAction );
-      disableActions.put( "CommandsByConsole", commandsByConsoleAction );
-
-
-      MemoryImportExportAction memoryImportExportAction = new MemoryImportExportAction();
-
-      enableActions.put( "MemoryImport", memoryImportExportAction );
-      disableActions.put( "MemoryExport", memoryImportExportAction );
-
-
-      MessagesAction messagesAction = new MessagesAction();
-
-      enableActions.put( "Messages", messagesAction );
-      disableActions.put( "Messages", messagesAction );
-
-
-      TemporaryGroupsAction temporaryGroupsAction = new TemporaryGroupsAction();
-
-      enableActions.put( "TemporaryGroups", temporaryGroupsAction );
-      disableActions.put( "TemporaryGroups", temporaryGroupsAction );
-
-
-      TemporaryPermissionsAction temporaryPermissionsAction = new TemporaryPermissionsAction();
-
-      enableActions.put( "TemporaryPermissions", temporaryPermissionsAction );
-      disableActions.put( "TemporaryPermissions", temporaryPermissionsAction );
+      enableActions.put( "MemoryImport", memoryAction );
+      disableActions.put( "MemoryExport", memoryAction );
    }
 
    public static boolean EnableDutyMode( Player player )
