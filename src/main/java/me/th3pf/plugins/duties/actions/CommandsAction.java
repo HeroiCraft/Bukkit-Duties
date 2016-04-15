@@ -7,6 +7,13 @@ import java.util.List;
 
 public class CommandsAction implements Action
 {
+   private final boolean console;
+
+   public CommandsAction( boolean console )
+   {
+      this.console = console;
+   }
+
    private void commands( Player player, List<String> commands )
    {
       if( commands == null )
@@ -25,12 +32,12 @@ public class CommandsAction implements Action
    @Override
    public void onEnable( Player player )
    {
-      commands( player, Duties.Config.GetStringList( "Actions.onEnable.Commands" ) );
+      commands( player, Duties.Config.GetStringList( "Actions.onEnable.Commands" + ( console ? "ByConsole" : "" ) ) );
    }
 
    @Override
    public void onDisable( Player player )
    {
-      commands( player, Duties.Config.GetStringList( "Actions.onDisable.Commands" ) );
+      commands( player, Duties.Config.GetStringList( "Actions.onDisable.Commands" + ( console ? "ByConsole" : "" ) ) );
    }
 }

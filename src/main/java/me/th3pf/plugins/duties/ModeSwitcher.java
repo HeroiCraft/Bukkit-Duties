@@ -32,8 +32,8 @@ public class ModeSwitcher
    {
       addAction( "Broadcast", new BroadcastAction() );
       addAction( "Cleanups", new CleanupsAction() );
-      addAction( "Commands", new CommandsAction() );
-      addAction( "CommandsByConsole", new CommandsByConsoleAction() );
+      addAction( "Commands", new CommandsAction( false ) );
+      addAction( "CommandsByConsole", new CommandsAction( true ) );
       addAction( "DataRemoval", new DataRemovalAction() );
       addAction( "Messages", new MessagesAction() );
       addAction( "TemporaryGroups", new TemporaryGroupsAction() );
