@@ -25,12 +25,12 @@ public class CommandsAction implements Action
    @Override
    public void onEnable( Player player )
    {
-      commands( player, Duties.Config.GetStringList( "Actions.onEnable.CommandsByConsole" ) );
+      commands( player, Duties.Config.GetStringList( "Actions.onEnable.Commands" ) );
    }
 
    @Override
    public void onDisable( Player player )
    {
-      commands( player, Duties.Config.GetStringList( "Actions.onDisable.CommandsByConsole" ) );
+      commands( player, Duties.Config.GetStringList( "Actions.onDisable.Commands" ) );
    }
 }
