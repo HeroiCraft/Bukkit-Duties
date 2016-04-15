@@ -11,7 +11,7 @@ public class TagAPIListener implements Listener
    @EventHandler( ignoreCancelled = true )
    public void onNameTag( PlayerReceiveNameTagEvent event )
    {
-      if( Duties.Memories.containsKey( event.getNamedPlayer().getName() ) )
+      if( Duties.Memories.containsKey( event.getNamedPlayer().getUniqueId() ) )
       {
          event.setTag(
                  Duties.Config.GetString( "Actions.NameTagPrefix" )

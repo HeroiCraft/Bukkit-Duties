@@ -5,6 +5,7 @@ import me.th3pf.plugins.duties.commandexecutors.DutiesCommandExecutor;
 import me.th3pf.plugins.duties.commandexecutors.DutymodeCommandExecutor;
 import me.th3pf.plugins.duties.listeners.*;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -12,9 +13,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Duties extends JavaPlugin
 {
@@ -26,7 +25,7 @@ public class Duties extends JavaPlugin
    public PluginDescriptionFile PDFile;
    public static Configuration.Main Config;
    public static Configuration.Messages Messages;
-   public static HashMap<String, Memory> Memories = new HashMap<String, Memory>();
+   public static HashMap<UUID, Memory> Memories = new HashMap<>();
    public static List<Player> Hidden = new ArrayList<Player>();
    public static HashMap<String, Long> LastChestReminderTime = new HashMap<String, Long>();
    public static HashMap<String, Long> LastDropReminderTime = new HashMap<String, Long>();
@@ -88,42 +87,38 @@ public class Duties extends JavaPlugin
    {
       this.getServer().savePlayers();
 
-      ArrayList<String> keySet = new ArrayList<String>();
-      keySet.addAll( Memories.keySet() );
-
-      if( ( Config.GetBoolean( "KeepStateOffline" ) ) )
+      if( Config.GetBoolean( "KeepStateOffline" ) ) //TODO
       {
-         for( String playerName : keySet )
+         for( Map.Entry<UUID, Memory> playerMemory : Memories.entrySet() )
          {
-            if( Duties.GetInstance().getServer().getOfflinePlayer( playerName ).isOnline() )
+            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer( playerMemory.getKey() );
+
+            if( offlinePlayer.isOnline() )
             {
-               if( !ModeSwitcher.DisableDutyMode( Bukkit.getPlayerExact( playerName ) ) )
-               {
-                  LogMessage( "Couldn't disable duty mode for " + playerName + "." );
-               }
+               if( !ModeSwitcher.DisableDutyMode( offlinePlayer.getPlayer() ) )
+                  LogMessage( "Couldn't disable duty mode for " + offlinePlayer.getName() + "(" + offlinePlayer.getUniqueId() + ")." );
             }
             else
             {
-
-               Player player = Memories.get( playerName ).Player;
+               Player player = playerMemory.getValue().Player;
 
                player.loadData();
+
                if( !ModeSwitcher.DisableDutyMode( player ) )
-               {
-                  LogMessage( "Dutymode inactivation for " + playerName + " couldn't complete. Sorry for the inconvience." );
-               }
+                  LogMessage( "Dutymode inactivation for " + player.getName() + "(" + player.getUniqueId() + ") couldn't complete. Sorry for the inconvenience." );
+
                player.saveData();
             }
          }
       }
       else
       {
-         for( String playerName : keySet )
+         for( Memory playerMemory : Memories.values() )
          {
-            if( !ModeSwitcher.DisableDutyMode( Bukkit.getPlayerExact( playerName ) ) )
-            {
-               LogMessage( "Dutymode inactivation for " + playerName + " couldn't complete. Sorry for the inconvience." );
-            }
+            Player player = playerMemory.Player;
+
+            if( !ModeSwitcher.DisableDutyMode( player ) )
+               LogMessage( "Dutymode inactivation for " + player.getName() + "(" + player.getUniqueId() + ") couldn't complete. Sorry for the inconvenience." );
          }
       }
 

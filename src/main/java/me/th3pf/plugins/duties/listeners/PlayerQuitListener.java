@@ -13,7 +13,7 @@ public class PlayerQuitListener implements Listener
    @EventHandler( priority = EventPriority.HIGH )
    public void onPlayerQuit( PlayerQuitEvent event )
    {
-      if( !Duties.Memories.containsKey( event.getPlayer().getName() ) )
+      if( !Duties.Memories.containsKey( event.getPlayer().getUniqueId() ) )
       {
          return;
       }

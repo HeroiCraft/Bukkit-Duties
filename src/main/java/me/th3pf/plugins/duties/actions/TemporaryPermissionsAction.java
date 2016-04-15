@@ -16,7 +16,7 @@ public class TemporaryPermissionsAction implements Action
 
       try
       {
-         Duties.Memories.get( player.getName() ).TemporaryPermissions = new ArrayList<PermissionAttachment>();
+         Duties.Memories.get( player.getUniqueId() ).TemporaryPermissions = new ArrayList<PermissionAttachment>();
 
          for( String node : Duties.Config.GetStringList( "Actions.TemporaryPermissions" ) )
          {
@@ -53,7 +53,7 @@ public class TemporaryPermissionsAction implements Action
                   }
                   else
                   {
-                     Duties.Memories.get( player ).TemporaryPermissions.add( player.addAttachment( Duties.GetInstance(), node.split( ": " )[0].replaceAll( "%PLAYER_NAME%", player.getName() ), Boolean.parseBoolean( node.split( ": " )[1] ) ) );
+                     Duties.Memories.get( player.getUniqueId() ).TemporaryPermissions.add( player.addAttachment( Duties.GetInstance(), node.split( ": " )[0].replaceAll( "%PLAYER_NAME%", player.getName() ), Boolean.parseBoolean( node.split( ": " )[1] ) ) );
                   }
                }
             }
@@ -113,7 +113,7 @@ public class TemporaryPermissionsAction implements Action
                   }
                   else
                   {
-                     player.removeAttachment( Duties.Memories.get( player ).TemporaryPermissions.get( count ) );
+                     player.removeAttachment( Duties.Memories.get( player.getUniqueId() ).TemporaryPermissions.get( count ) );
                   }
                }
             }

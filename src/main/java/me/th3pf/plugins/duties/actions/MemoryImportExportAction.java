@@ -3,6 +3,7 @@ package me.th3pf.plugins.duties.actions;
 import me.th3pf.plugins.duties.Duties;
 import me.th3pf.plugins.duties.Memory;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 
 public class MemoryImportExportAction implements Action
@@ -13,7 +14,7 @@ public class MemoryImportExportAction implements Action
       //Importing to memory
       try
       {
-         Duties.Memories.put( player.getName(), new Memory( player, 0 ) );
+         Duties.Memories.put( player.getUniqueId(), new Memory( player, 0 ) );
       }
       catch( Exception exception )
       {
@@ -24,55 +25,46 @@ public class MemoryImportExportAction implements Action
    @Override
    public void onDisable( Player player ) throws ActionException
    {
-      //Resets player data from memory
-      try
-      {
-         if( player.isInsideVehicle() ) player.getVehicle().eject();
+      if( player.isInsideVehicle() )
+         player.getVehicle().eject();
 
-         if( Duties.Config.GetBoolean( "PreventTeleportCollision" ) ) //Teleporting in to blocks fix, suggested by @riddle
-            Duties.Memories.get( player.getName() ).Location.setY( Duties.Memories.get( player.getName() ).Location.getY() + 1 );
+      Memory memory = Duties.Memories.get( player.getUniqueId() );
 
-         player.teleport( Duties.Memories.get( player.getName() ).Location );
-         if( Duties.Memories.get( player.getName() ).Vehicle != null )
-         {
-            Duties.Memories.get( player.getName() ).Vehicle.setPassenger( player );
-         }
-         player.setVelocity( Duties.Memories.get( player.getName() ).Velocity );
-         player.setGameMode( Duties.Memories.get( player.getName() ).GameMode );
-         player.getInventory().clear();
-         player.getInventory().setContents( Duties.Memories.get( player.getName() ).Inventory );
-         player.getInventory().setArmorContents( Duties.Memories.get( player.getName() ).Armor );
-         player.setExhaustion( Duties.Memories.get( player.getName() ).Exhaustion );
-         player.setSaturation( Duties.Memories.get( player.getName() ).Saturation );
-         player.setFoodLevel( Duties.Memories.get( player.getName() ).FoodLevel );
-         player.setHealth( Duties.Memories.get( player.getName() ).Health );
-         player.setLevel( Duties.Memories.get( player.getName() ).Level );
-         player.setExp( Duties.Memories.get( player.getName() ).Experience );
-         player.setRemainingAir( Duties.Memories.get( player.getName() ).RemainingAir );
-         player.setFallDistance( Duties.Memories.get( player.getName() ).FallDistance );
-         player.setFireTicks( Duties.Memories.get( player.getName() ).FireTicks );
-         for( PotionEffect potionEffect : player.getActivePotionEffects() )
-         {
-            player.removePotionEffect( potionEffect.getType() );
+      if( Duties.Config.GetBoolean( "PreventTeleportCollision" ) ) //Teleporting in to blocks fix, suggested by @riddle
+         memory.Location.add( 0, 1, 0 );
 
-            //PotionEffectRemoval.removeMobEffect(player, potionEffect.getType().getId());
-         }
-         player.addPotionEffects( Duties.Memories.get( player.getName() ).PotionEffects );
+      player.teleport( memory.Location );
 
-         //Duties.GetInstance().LogMessage("Reached before bed spawn loc.");
+      if( memory.Vehicle != null )
+         memory.Vehicle.setPassenger( player );
 
-         if( Duties.Memories.get( player.getName() ).BedSpawnLocation != null && player.getBedSpawnLocation() != null && !Duties.Memories.get( player.getName() ).BedSpawnLocation.equals( player.getBedSpawnLocation() ) )
-         {
-            //Broken since CB 1.4.7-RX.X
-            player.setBedSpawnLocation(
-                    Duties.Memories.get( player.getName() ).BedSpawnLocation );
-         }
+      player.setVelocity( memory.Velocity );
+      player.setGameMode( memory.GameMode );
 
-         player.setTicksLived( Duties.Memories.get( player.getName() ).TicksLived );
-      }
-      catch( Exception exception )
-      {
-         throw new ActionException( "Failed while reseting player data from memory: ", exception );
-      }
+      PlayerInventory playerInventory = player.getInventory();
+
+      playerInventory.clear();
+      playerInventory.setContents( memory.Inventory );
+      playerInventory.setArmorContents( memory.Armor );
+
+      player.setExhaustion( memory.Exhaustion );
+      player.setSaturation( memory.Saturation );
+      player.setFoodLevel( memory.FoodLevel );
+      player.setHealth( memory.Health );
+      player.setLevel( memory.Level );
+      player.setExp( memory.Experience );
+      player.setRemainingAir( memory.RemainingAir );
+      player.setFallDistance( memory.FallDistance );
+      player.setFireTicks( memory.FireTicks );
+
+      for( PotionEffect potionEffect : player.getActivePotionEffects() )
+         player.removePotionEffect( potionEffect.getType() );
+
+      player.addPotionEffects( memory.PotionEffects );
+
+      if( memory.BedSpawnLocation != null && player.getBedSpawnLocation() != null && !memory.BedSpawnLocation.equals( player.getBedSpawnLocation() ) )
+         player.setBedSpawnLocation( memory.BedSpawnLocation ); //Broken since CB 1.4.7-R*.* //TODO: check
+
+      player.setTicksLived( memory.TicksLived );
    }
 }
