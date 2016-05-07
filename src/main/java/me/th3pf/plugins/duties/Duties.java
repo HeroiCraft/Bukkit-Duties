@@ -65,7 +65,7 @@ public class Duties extends JavaPlugin
       pluginManager.registerEvents( new EntityDeathListener(), this );
       pluginManager.registerEvents( new RemindListener(), this );
 
-      if( pluginManager.isPluginEnabled( "TagAPI" ) )
+      if( pluginManager.isPluginEnabled( "TagAPI" ) || pluginManager.isPluginEnabled( "iTag-API" ) || pluginManager.isPluginEnabled( "iTag" ) )
       {
          pluginManager.registerEvents( new TagAPIListener(), this );
          Duties.GetInstance().LogMessage( "TagAPI hooked." );
