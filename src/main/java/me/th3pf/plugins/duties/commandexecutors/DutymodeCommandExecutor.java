@@ -4,12 +4,14 @@ import me.th3pf.plugins.duties.Duties;
 import me.th3pf.plugins.duties.ModeSwitcher;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class DutymodeCommandExecutor implements CommandExecutor
 {
@@ -28,7 +30,7 @@ public class DutymodeCommandExecutor implements CommandExecutor
             }
             if( sender instanceof Player )
             {
-               if( !Duties.Memories.containsKey( sender.getName() ) )
+               if( !Duties.Memories.containsKey( ( (Player) sender ).getUniqueId() ) )
                   TellSender( sender, updates.Enable, ModeSwitcher.EnableDutyMode( (Player) sender ) );
                else
                   TellSender( sender, updates.Disable, ModeSwitcher.DisableDutyMode( (Player) sender ) );
@@ -82,7 +84,7 @@ public class DutymodeCommandExecutor implements CommandExecutor
 
                Player target = Bukkit.getPlayer( args[1] );
 
-               if( !Duties.Memories.containsKey( Bukkit.getPlayer( args[1] ).getName() ) )
+               if( !Duties.Memories.containsKey( target.getUniqueId() ) )
                   TellSender( sender, updates.EnableOfOther, ModeSwitcher.EnableDutyMode( target ) );
                else
                   TellSender( sender, updates.DisableOfOther, ModeSwitcher.DisableDutyMode( target ) );
@@ -99,7 +101,7 @@ public class DutymodeCommandExecutor implements CommandExecutor
                   return true;
                }
 
-               if( !Duties.Memories.containsKey( sender.getName() ) )
+               if( !Duties.Memories.containsKey( ( (Player) sender ).getUniqueId() ) )
                   TellSender( sender, updates.Enable, ModeSwitcher.EnableDutyMode( (Player) sender ) );
                else
                   TellSender( sender, updates.Disable, ModeSwitcher.DisableDutyMode( (Player) sender ) );
@@ -151,7 +153,7 @@ public class DutymodeCommandExecutor implements CommandExecutor
                   return true;
                }
 
-               if( Duties.Memories.containsKey( Duties.GetInstance().getServer().getPlayer( args[1] ).getName() ) )
+               if( Duties.Memories.containsKey( Bukkit.getPlayer( args[1] ).getUniqueId() ) )
                {
                   TellSender( sender, updates.AlreadyOn, false );
                   return true;
@@ -168,13 +170,14 @@ public class DutymodeCommandExecutor implements CommandExecutor
                TellSender( sender, updates.MissingPermission, true );
                return true;
             }
-            if( !Duties.Memories.containsKey( sender.getName() ) )
-            {
-               TellSender( sender, updates.AlreadyOn, false );
-               return true;
-            }
             if( sender instanceof Player )
             {
+               if( !Duties.Memories.containsKey( ( (Player) sender ).getUniqueId() ) )
+               {
+                  TellSender( sender, updates.AlreadyOn, false );
+                  return true;
+               }
+
                TellSender( sender, updates.Enable, ModeSwitcher.EnableDutyMode( (Player) sender ) );
 
                return true;
@@ -224,7 +227,7 @@ public class DutymodeCommandExecutor implements CommandExecutor
                   return true;
                }
 
-               if( !Duties.Memories.containsKey( Duties.GetInstance().getServer().getPlayer( args[1] ).getName() ) )
+               if( !Duties.Memories.containsKey( Bukkit.getPlayer( args[1] ).getUniqueId() ) )
                {
                   TellSender( sender, updates.AlreadyOff, false );
                   return true;
@@ -241,14 +244,15 @@ public class DutymodeCommandExecutor implements CommandExecutor
                TellSender( sender, updates.MissingPermission, true );
                return true;
             }
-            if( !Duties.Memories.containsKey( sender.getName() ) )
-            {
-               TellSender( sender, updates.AlreadyOff, false );
-               return true;
-            }
 
             if( sender instanceof Player )
             {
+               if( !Duties.Memories.containsKey( ( (Player) sender ).getUniqueId() ) )
+               {
+                  TellSender( sender, updates.AlreadyOff, false );
+                  return true;
+               }
+
                TellSender( sender, updates.Disable, ModeSwitcher.DisableDutyMode( (Player) sender ) );
 
                return true;
@@ -275,17 +279,19 @@ public class DutymodeCommandExecutor implements CommandExecutor
 
          String players = "";
 
-         for( String playerName : Duties.Memories.keySet() )
+         for( UUID playerId : Duties.Memories.keySet() )
          {
-            if( !Duties.GetInstance().getServer().getPlayerExact( playerName ).hasPermission( "duties.belisted" ) && !( Duties.Config.GetBoolean( "Vault.Permissions" ) && Duties.VaultAdapter.permission.has( Duties.GetInstance().getServer().getPlayerExact( playerName ), "duties.belisted" ) ) )
+            Player player = Bukkit.getPlayer( playerId );
+
+            if( !player.hasPermission( "duties.belisted" ) && !( Duties.Config.GetBoolean( "Vault.Permissions" ) && Duties.VaultAdapter.permission.has( player, "duties.belisted" ) ) )
             {
                continue;
             }
 
-            String formattedName = playerName;
+            String formattedName = player.getName();
             if( Duties.Config.GetBoolean( "Vault.NameFormatting" ) && Duties.GetInstance().getServer().getPluginManager().isPluginEnabled( "Vault" ) )
             {
-               formattedName = ( Duties.VaultAdapter.chat.getPlayerPrefix( Duties.GetInstance().getServer().getPlayerExact( playerName ) ) + formattedName + Duties.VaultAdapter.chat.getPlayerSuffix( Duties.GetInstance().getServer().getPlayerExact( playerName ) ) );
+               formattedName = ( Duties.VaultAdapter.chat.getPlayerPrefix( player ) + formattedName + Duties.VaultAdapter.chat.getPlayerSuffix( player ) );
             }
 
             players += ( formattedName ) + ChatColor.WHITE + ", ";
@@ -313,14 +319,15 @@ public class DutymodeCommandExecutor implements CommandExecutor
 
          String players = "";
 
-         for( String playerName : Duties.Memories.keySet() )
+         for( UUID playerId : Duties.Memories.keySet() )
          {
             //if(!player.hasPermission("duties.belisted"))continue;
+            Player player = Bukkit.getPlayer( playerId );
 
-            String formattedName = playerName;
+            String formattedName = player.getName();
             if( Duties.Config.GetBoolean( "Vault.NameFormatting" ) && Duties.GetInstance().getServer().getPluginManager().isPluginEnabled( "Vault" ) )
             {
-               formattedName = ( Duties.VaultAdapter.chat.getPlayerPrefix( Duties.GetInstance().getServer().getPlayerExact( playerName ) ) + formattedName + Duties.VaultAdapter.chat.getPlayerSuffix( Duties.GetInstance().getServer().getPlayerExact( playerName ) ) );
+               formattedName = ( Duties.VaultAdapter.chat.getPlayerPrefix( player ) + formattedName + Duties.VaultAdapter.chat.getPlayerSuffix( player ) );
             }
 
             players += ( formattedName ) + ChatColor.WHITE + ", ";
@@ -482,20 +489,22 @@ public class DutymodeCommandExecutor implements CommandExecutor
             return true;
          }
 
-         ArrayList<String> keySet = new ArrayList<String>();
+         ArrayList<UUID> keySet = new ArrayList<>();
          keySet.addAll( Duties.Memories.keySet() );
 
-         for( String playerName : keySet )
+         for( UUID playerId : keySet )
          {
-            if( !Duties.GetInstance().getServer().getPlayerExact( playerName ).isOnline() )
+            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer( playerId );
+
+            if( !offlinePlayer.isOnline() )
             {
-               Duties.GetInstance().LogMessage( "Player " + playerName + " is offline and can therefore not be put off duty mode." );
+               Duties.GetInstance().LogMessage( "Player " + offlinePlayer.getName() + "(" + offlinePlayer.getUniqueId() + ") is offline and can therefore not be put off duty mode." );
                continue;
             }
 
-            if( !ModeSwitcher.DisableDutyMode( Duties.GetInstance().getServer().getPlayerExact( playerName ) ) )
+            if( !ModeSwitcher.DisableDutyMode( offlinePlayer.getPlayer() ) )
             {
-               Duties.GetInstance().LogMessage( "Couldn't disable duty mode for " + playerName + "." );
+               Duties.GetInstance().LogMessage( "Couldn't disable duty mode for " + offlinePlayer.getName() + "(" + offlinePlayer.getUniqueId() + ")." );
             }
          }
 

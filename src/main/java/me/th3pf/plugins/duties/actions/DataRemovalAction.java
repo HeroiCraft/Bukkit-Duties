@@ -11,7 +11,7 @@ public class DataRemovalAction implements DisableAction
       //Removes player data from memory
       try
       {
-         Duties.Memories.remove( player.getName() );
+         Duties.Memories.remove( player.getUniqueId() );
       }
       catch( Exception exception )
       {

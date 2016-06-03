@@ -11,7 +11,7 @@ public class PlayerJoinListener implements Listener
    @EventHandler( priority = EventPriority.MONITOR )
    public void onPlayerJoin( PlayerJoinEvent event )
    {
-      if( !Duties.Memories.containsKey( event.getPlayer() ) )
+      if( !Duties.Memories.containsKey( event.getPlayer().getUniqueId() ) )
       {
          return;
       }

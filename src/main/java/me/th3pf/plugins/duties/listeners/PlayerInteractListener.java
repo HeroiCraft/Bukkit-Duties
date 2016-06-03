@@ -27,7 +27,7 @@ public class PlayerInteractListener implements Listener
       if( !Duties.Config.GetBoolean( "Actions.DenyChestInteracts" ) )
          return;
 
-      if( !Duties.Memories.containsKey( event.getPlayer().getName() ) )
+      if( !Duties.Memories.containsKey( event.getPlayer().getUniqueId() ) )
          return;
 
       if( ( event.getPlayer().hasPermission( "duties.bypass.chestinteracts" )

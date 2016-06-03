@@ -14,7 +14,7 @@ public class EntityDeathListener implements Listener
    {
       if( Duties.Config.GetBoolean( "Actions.DisableDeathDrops" )
               && ( event.getEntity() instanceof Player )
-              && ( Duties.Memories.containsKey( ( (Player) event.getEntity() ).getName() ) ) )
+              && ( Duties.Memories.containsKey( event.getEntity().getUniqueId() ) ) )
       {
          event.getDrops().clear();
          event.setDroppedExp( 0 );
@@ -22,7 +22,7 @@ public class EntityDeathListener implements Listener
 
       if( Duties.Config.GetBoolean( "Actions.DisableKillDrops" )
               && ( event.getEntity().getKiller() instanceof Player )
-              && ( Duties.Memories.containsKey( event.getEntity().getKiller().getName() ) ) )
+              && ( Duties.Memories.containsKey( event.getEntity().getKiller().getUniqueId() ) ) )
       {
          event.getDrops().clear();
          event.setDroppedExp( 0 );

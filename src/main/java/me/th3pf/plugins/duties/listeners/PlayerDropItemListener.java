@@ -15,7 +15,7 @@ public class PlayerDropItemListener implements Listener
       if( !Duties.Config.GetBoolean( "Actions.DenyDesiredDrops" ) )
          return;
 
-      if( !Duties.Memories.containsKey( event.getPlayer().getName() ) )
+      if( !Duties.Memories.containsKey( event.getPlayer().getUniqueId() ) )
          return;
 
       if( ( event.getPlayer().hasPermission( "duties.bypass.dropitems" )

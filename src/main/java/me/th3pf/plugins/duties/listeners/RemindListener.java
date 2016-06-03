@@ -23,7 +23,7 @@ public class RemindListener implements Listener
          return;
       }
 
-      if( !Duties.Memories.containsKey( event.getPlayer().getName() ) )
+      if( !Duties.Memories.containsKey( event.getPlayer().getUniqueId() ) )
       {
          return;
       }
@@ -66,7 +66,7 @@ public class RemindListener implements Listener
    public void onPlayerDropItem( PlayerDropItemEvent event )
    {
 
-      if( !Duties.Memories.containsKey( event.getPlayer().getName() ) )
+      if( !Duties.Memories.containsKey( event.getPlayer().getUniqueId() ) )
       {
          return;
       }

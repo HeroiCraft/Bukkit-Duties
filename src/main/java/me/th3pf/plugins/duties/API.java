@@ -1,8 +1,11 @@
 package me.th3pf.plugins.duties;
 
 import me.th3pf.plugins.duties.adapters.VaultAdapter;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+
+import java.util.UUID;
 
 public class API
 {
@@ -80,9 +83,20 @@ public class API
       ModeSwitcher.DisableDutyMode( player );
    }
 
+   @Deprecated
    public boolean IsPlayerInDutyMode( String player )
    {
       if( !Duties.Addons.containsKey( registredPlugin ) ) return false;
+
+      UUID uuid = Bukkit.getPlayer( player ).getUniqueId();
+
+      return Duties.Memories.keySet().contains( uuid );
+   }
+
+   public boolean IsPlayerInDutyMode( UUID player )
+   {
+      if( !Duties.Addons.containsKey( registredPlugin ) )
+         return false;
 
       return Duties.Memories.keySet().contains( player );
    }
