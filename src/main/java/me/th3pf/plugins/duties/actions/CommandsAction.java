@@ -1,6 +1,8 @@
 package me.th3pf.plugins.duties.actions;
 
 import me.th3pf.plugins.duties.Duties;
+
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -25,7 +27,14 @@ public class CommandsAction implements Action
                  .replaceAll( "%PLAYER_NAME%", player.getName() )
                  .replaceAll( "%PLAYER_GAMEMODE%", player.getGameMode().toString() );
 
-         player.performCommand( parsedCommand );
+         if( console )
+         {
+            Bukkit.dispatchCommand( Bukkit.getConsoleSender(), parsedCommand );
+         }
+         else
+         {
+            player.performCommand( parsedCommand );
+         }
       }
    }
 
