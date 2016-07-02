@@ -3,7 +3,7 @@ plugins {
    id 'idea'
 }
 
-version = '1.4.5'
+version = '1.4.6'
 
 compileJava.options.encoding = 'UTF-8'
 
@@ -11,13 +11,15 @@ repositories {
    mavenCentral()
    maven { url 'https://hub.spigotmc.org/nexus/content/groups/public' }
    maven { url 'http://nexus.theyeticave.net/content/repositories/pub_releases/' }
-   maven { url 'http://repo.kitteh.org/content/repositories/public/' }
+   maven { url 'http://repo.md-5.net/content/repositories/snapshots' }
+   maven { url 'http://repo.herocc.com/repository/maven-public/' }
+   maven { url 'http://repo.dmulloy2.net/content/groups/public/' }
 }
 
 dependencies {
    compile 'org.bukkit:bukkit:1.9-R0.1-SNAPSHOT'
    compile 'net.milkbowl.vault:VaultAPI:1.4'
-   compile 'org.kitteh:tagapi:3.0.6'
+   compile 'net.md-5:iTag:1.1.9-SNAPSHOT'
 }
 
 processResources {

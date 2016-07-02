@@ -3,13 +3,13 @@ package me.th3pf.plugins.duties.listeners;
 import me.th3pf.plugins.duties.Duties;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.kitteh.tag.PlayerReceiveNameTagEvent;
+import org.kitteh.tag.AsyncPlayerReceiveNameTagEvent;
 
 public class TagAPIListener implements Listener
 {
 
    @EventHandler( ignoreCancelled = true )
-   public void onNameTag( PlayerReceiveNameTagEvent event )
+   public void onNameTag( AsyncPlayerReceiveNameTagEvent event )
    {
       if( Duties.Memories.containsKey( event.getNamedPlayer().getUniqueId() ) )
       {

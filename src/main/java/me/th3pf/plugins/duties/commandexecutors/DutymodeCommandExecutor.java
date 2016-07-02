@@ -39,7 +39,7 @@ public class DutymodeCommandExecutor implements CommandExecutor
             }
             else
             {
-               Duties.GetInstance().LogMessage( "This command is only avaible for in-game player." );
+               Duties.GetInstance().LogMessage( "This command is only available for in-game player." );
                return true;
             }
          }
