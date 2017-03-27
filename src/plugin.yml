@@ -1,10 +1,9 @@
 name: Duties
-version: ${version}
+version: 2.0.0
 description: Saves your survival state and let's you revert back it!
-authors: [TH3PF, Randomfish132, HeroCC]
-website: http://dev.bukkit.org/server-mods/duties/
-main: me.th3pf.plugins.duties.Duties
-softdepend: [Vault, TagAPI, iTag, iTag-API]
+authors: [TH3PF, Randomfish132, HeroCC, bittiez]
+main: US.bukkit.duties.Duties
+softdepend: [Vault]
 commands:
   duties:
     description: Plugin management
