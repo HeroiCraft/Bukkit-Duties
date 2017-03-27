@@ -57,6 +57,7 @@ Commands: (Every /dutymode can be replaced by /duty and /dm)
 
 # Permissions
 
+The easiest setup for this is to give the admins the duties.admin node, mods the duties.mod node and regular players the duties.regular node.
 
 
 # Installation
