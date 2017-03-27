@@ -1,9 +1,9 @@
 package US.bukkit.duties;
 
+import US.bukkit.duties.adapters.VaultAdapter;
 import US.bukkit.duties.commandexecutors.DutiesCommandExecutor;
 import US.bukkit.duties.commandexecutors.DutymodeCommandExecutor;
 import US.bukkit.duties.listeners.*;
-import US.bukkit.duties.adapters.VaultAdapter;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -16,10 +16,6 @@ import java.io.File;
 import java.util.*;
 
 public class Duties extends JavaPlugin {
-    private static Duties Instance;
-
-    public PluginManager pluginManager;
-    public PluginDescriptionFile PDFile;
     public static Configuration.Main Config;
     public static Configuration.Messages Messages;
     public static HashMap<UUID, Memory> Memories = new HashMap<>();
@@ -29,9 +25,20 @@ public class Duties extends JavaPlugin {
     public static HashMap<Plugin, String> Addons = new HashMap<Plugin, String>();
     public static VaultAdapter VaultAdapter;
     public static boolean latestEventCancelled = false;
+    private static Duties Instance;
+    public PluginManager pluginManager;
+    public PluginDescriptionFile PDFile;
 
     public Duties() {
         Instance = this;
+    }
+
+    public static Duties GetInstance() {
+        return Instance;
+    }
+
+    public static API GetAPI() {
+        return new API();
     }
 
     @Override
@@ -100,14 +107,6 @@ public class Duties extends JavaPlugin {
         }
 
         LogMessage("by " + PDFile.getAuthors().get(0) + " was successfully disabled!");
-    }
-
-    public static Duties GetInstance() {
-        return Instance;
-    }
-
-    public static API GetAPI() {
-        return new API();
     }
 
     public void LogMessage(String Message) {

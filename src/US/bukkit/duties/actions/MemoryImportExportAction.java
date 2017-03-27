@@ -6,65 +6,59 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 
-public class MemoryImportExportAction implements Action
-{
-   @Override
-   public void onEnable( Player player ) throws ActionException
-   {
-      //Importing to memory
-      try
-      {
-         Duties.Memories.put( player.getUniqueId(), new Memory( player, 0 ) );
-      }
-      catch( Exception exception )
-      {
-         throw new ActionException( "Failed while importing player data in to memory: ", exception );
-      }
-   }
+public class MemoryImportExportAction implements Action {
+    @Override
+    public void onEnable(Player player) throws ActionException {
+        //Importing to memory
+        try {
+            Duties.Memories.put(player.getUniqueId(), new Memory(player, 0));
+        } catch (Exception exception) {
+            throw new ActionException("Failed while importing player data in to memory: ", exception);
+        }
+    }
 
-   @Override
-   public void onDisable( Player player ) throws ActionException
-   {
-      if( player.isInsideVehicle() )
-         player.getVehicle().eject();
+    @Override
+    public void onDisable(Player player) throws ActionException {
+        if (player.isInsideVehicle())
+            player.getVehicle().eject();
 
-      Memory memory = Duties.Memories.get( player.getUniqueId() );
+        Memory memory = Duties.Memories.get(player.getUniqueId());
 
-      if( Duties.Config.GetBoolean( "PreventTeleportCollision" ) ) //Teleporting in to blocks fix, suggested by @riddle
-         memory.Location.add( 0, 1, 0 );
+        if (Duties.Config.GetBoolean("PreventTeleportCollision")) //Teleporting in to blocks fix, suggested by @riddle
+            memory.Location.add(0, 1, 0);
 
-      player.teleport( memory.Location );
+        player.teleport(memory.Location);
 
-      if( memory.Vehicle != null )
-         memory.Vehicle.setPassenger( player );
+        if (memory.Vehicle != null)
+            memory.Vehicle.addPassenger(player);
 
-      player.setVelocity( memory.Velocity );
-      player.setGameMode( memory.GameMode );
+        player.setVelocity(memory.Velocity);
+        player.setGameMode(memory.GameMode);
 
-      PlayerInventory playerInventory = player.getInventory();
+        PlayerInventory playerInventory = player.getInventory();
 
-      playerInventory.clear();
-      playerInventory.setContents( memory.Inventory );
-      playerInventory.setArmorContents( memory.Armor );
+        playerInventory.clear();
+        playerInventory.setContents(memory.Inventory);
+        playerInventory.setArmorContents(memory.Armor);
 
-      player.setExhaustion( memory.Exhaustion );
-      player.setSaturation( memory.Saturation );
-      player.setFoodLevel( memory.FoodLevel );
-      player.setHealth( memory.Health );
-      player.setLevel( memory.Level );
-      player.setExp( memory.Experience );
-      player.setRemainingAir( memory.RemainingAir );
-      player.setFallDistance( memory.FallDistance );
-      player.setFireTicks( memory.FireTicks );
+        player.setExhaustion(memory.Exhaustion);
+        player.setSaturation(memory.Saturation);
+        player.setFoodLevel(memory.FoodLevel);
+        player.setHealth(memory.Health);
+        player.setLevel(memory.Level);
+        player.setExp(memory.Experience);
+        player.setRemainingAir(memory.RemainingAir);
+        player.setFallDistance(memory.FallDistance);
+        player.setFireTicks(memory.FireTicks);
 
-      for( PotionEffect potionEffect : player.getActivePotionEffects() )
-         player.removePotionEffect( potionEffect.getType() );
+        for (PotionEffect potionEffect : player.getActivePotionEffects())
+            player.removePotionEffect(potionEffect.getType());
 
-      player.addPotionEffects( memory.PotionEffects );
+        player.addPotionEffects(memory.PotionEffects);
 
-      if( memory.BedSpawnLocation != null && player.getBedSpawnLocation() != null && !memory.BedSpawnLocation.equals( player.getBedSpawnLocation() ) )
-         player.setBedSpawnLocation( memory.BedSpawnLocation ); //Broken since CB 1.4.7-R*.* //TODO: check
+        if (memory.BedSpawnLocation != null && player.getBedSpawnLocation() != null && !memory.BedSpawnLocation.equals(player.getBedSpawnLocation()))
+            player.setBedSpawnLocation(memory.BedSpawnLocation); //Broken since CB 1.4.7-R*.* //TODO: check
 
-      player.setTicksLived( memory.TicksLived );
-   }
+        player.setTicksLived(memory.TicksLived);
+    }
 }

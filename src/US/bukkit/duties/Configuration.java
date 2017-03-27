@@ -12,6 +12,29 @@ public class Configuration {
         private YamlConfiguration config;
         private HashMap<String, Object> configDefaults = new LinkedHashMap<String, Object>();
 
+        public Main(File configFile) {
+            this.config = new YamlConfiguration();
+            this.configDefaults = initializeConfigDefaults();
+
+            if (!configFile.exists()) {
+                for (String key : this.configDefaults.keySet()) {
+                    this.config.set(key, this.configDefaults.get(key));
+                }
+
+                try {
+                    this.config.save(configFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    this.config.load(configFile);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         public LinkedHashMap<String, Object> initializeConfigDefaults() {
             LinkedHashMap<String, Object> output = new LinkedHashMap<String, Object>();
 
@@ -52,29 +75,6 @@ public class Configuration {
             //output.put("Easter-eggs",true);
 
             return output;
-        }
-
-        public Main(File configFile) {
-            this.config = new YamlConfiguration();
-            this.configDefaults = initializeConfigDefaults();
-
-            if (!configFile.exists()) {
-                for (String key : this.configDefaults.keySet()) {
-                    this.config.set(key, this.configDefaults.get(key));
-                }
-
-                try {
-                    this.config.save(configFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                try {
-                    this.config.load(configFile);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
         }
 
         public void Reload() {
@@ -214,6 +214,29 @@ public class Configuration {
         private YamlConfiguration config;
         private HashMap<String, Object> configDefaults = new LinkedHashMap<String, Object>();
 
+        public Messages(File configFile) {
+            this.config = new YamlConfiguration();
+            this.configDefaults = initializeConfigDefaults();
+
+            if (!configFile.exists()) {
+                for (String key : this.configDefaults.keySet()) {
+                    this.config.set(key, this.configDefaults.get(key));
+                }
+
+                try {
+                    this.config.save(configFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    this.config.load(configFile);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         public LinkedHashMap<String, Object> initializeConfigDefaults() {
             LinkedHashMap<String, Object> output = new LinkedHashMap<String, Object>();
 
@@ -260,29 +283,6 @@ public class Configuration {
             output.put("Server.IngamePlayersOnly", "This command is only available for in-game player.");
 
             return output;
-        }
-
-        public Messages(File configFile) {
-            this.config = new YamlConfiguration();
-            this.configDefaults = initializeConfigDefaults();
-
-            if (!configFile.exists()) {
-                for (String key : this.configDefaults.keySet()) {
-                    this.config.set(key, this.configDefaults.get(key));
-                }
-
-                try {
-                    this.config.save(configFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                try {
-                    this.config.load(configFile);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
         }
 
         public void Reload() {

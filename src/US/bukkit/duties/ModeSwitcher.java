@@ -15,14 +15,6 @@ public class ModeSwitcher {
     private static final Map<String, EnableAction> enableActions = new HashMap<>();
     private static final Map<String, DisableAction> disableActions = new HashMap<>();
 
-    private static void addAction(String id, Object action) {
-        if (action instanceof EnableAction)
-            enableActions.put(id, (EnableAction) action);
-
-        if (action instanceof DisableAction)
-            disableActions.put(id, (DisableAction) action);
-    }
-
     static {
         addAction("Broadcast", new BroadcastAction());
         addAction("Cleanups", new CleanupsAction());
@@ -37,6 +29,14 @@ public class ModeSwitcher {
 
         enableActions.put("MemoryImport", memoryAction);
         disableActions.put("MemoryExport", memoryAction);
+    }
+
+    private static void addAction(String id, Object action) {
+        if (action instanceof EnableAction)
+            enableActions.put(id, (EnableAction) action);
+
+        if (action instanceof DisableAction)
+            disableActions.put(id, (DisableAction) action);
     }
 
     public static boolean EnableDutyMode(Player player) {

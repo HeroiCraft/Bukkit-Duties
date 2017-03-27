@@ -1,5 +1,4 @@
 package US.bukkit.duties.actions;
 
-public interface Action extends EnableAction, DisableAction
-{
+public interface Action extends EnableAction, DisableAction {
 }

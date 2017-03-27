@@ -13,6 +13,31 @@ import java.util.Collection;
 import java.util.List;
 
 public class Memory {
+    //Instance of player needed for shutdown
+    public Player Player;
+    public Location Location;
+    public Entity Vehicle;
+    public Vector Velocity;
+    public GameMode GameMode;
+    public ItemStack[] Inventory;
+    //	public int ItemHeldSlot;
+    public ItemStack[] Armor;
+    public double Health;
+    public int FoodLevel;
+    public int Level;
+    public float Experience;
+    public float Saturation;
+    public float Exhaustion;
+    public int FireTicks;
+    public int RemainingAir;
+    public float FallDistance;
+    public Collection<PotionEffect> PotionEffects;
+    public Location BedSpawnLocation;
+    public int TicksLived;
+    public int ticksOnDuty;
+    //Features
+    public List<PermissionAttachment> TemporaryPermissions;
+
     //The memory where the plugin saves your inventory, location, armor etc...
     public Memory(Player Player, Location Location, Entity Vehicle, Vector Velocity, GameMode GameMode, ItemStack[] Inventory, ItemStack[] Armor, double Health, int FoodLevel, int Level, float Experience, float Saturation, float Exhaustion, int RemainingAir, float FallDistance, int FireTicks, Collection<PotionEffect> PotionEffects, Location BedSpawnLocation, int TicksLived, int ticksOnDuty) {
         this.Player = Player;
@@ -61,32 +86,4 @@ public class Memory {
 
         this.ticksOnDuty = ticksOnDuty;
     }
-
-    //Instance of player needed for shutdown
-    public Player Player;
-
-    public Location Location;
-    public Entity Vehicle;
-    public Vector Velocity;
-    public GameMode GameMode;
-    public ItemStack[] Inventory;
-    //	public int ItemHeldSlot;
-    public ItemStack[] Armor;
-    public double Health;
-    public int FoodLevel;
-    public int Level;
-    public float Experience;
-    public float Saturation;
-    public float Exhaustion;
-    public int FireTicks;
-    public int RemainingAir;
-    public float FallDistance;
-    public Collection<PotionEffect> PotionEffects;
-    public Location BedSpawnLocation;
-    public int TicksLived;
-
-    public int ticksOnDuty;
-
-    //Features
-    public List<PermissionAttachment> TemporaryPermissions;
 }

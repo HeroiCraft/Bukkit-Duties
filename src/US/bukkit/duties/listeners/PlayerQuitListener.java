@@ -7,18 +7,15 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class PlayerQuitListener implements Listener
-{
+public class PlayerQuitListener implements Listener {
 
-   @EventHandler( priority = EventPriority.HIGH )
-   public void onPlayerQuit( PlayerQuitEvent event )
-   {
-      if( !Duties.Memories.containsKey( event.getPlayer().getUniqueId() ) )
-      {
-         return;
-      }
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        if (!Duties.Memories.containsKey(event.getPlayer().getUniqueId())) {
+            return;
+        }
 
-      ModeSwitcher.DisableDutyMode( event.getPlayer() );
-   }
+        ModeSwitcher.DisableDutyMode(event.getPlayer());
+    }
 
 }
