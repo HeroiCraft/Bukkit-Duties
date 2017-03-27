@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="BukkitDuties:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/BukkitDuties_jar</output-path>
+    <root id="archive" name="BukkitDuties.jar">
+      <element id="module-output" name="Bukkit-Duties" />
+    </root>
+  </artifact>
+</component>

@@ -15,129 +15,103 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.util.*;
 
-public class Duties extends JavaPlugin
-{
-   //Server readpoint
-   private static Duties Instance;
+public class Duties extends JavaPlugin {
+    private static Duties Instance;
 
-   //Public source points
-   public PluginManager pluginManager;
-   public PluginDescriptionFile PDFile;
-   public static Configuration.Main Config;
-   public static Configuration.Messages Messages;
-   public static HashMap<UUID, Memory> Memories = new HashMap<>();
-   public static List<Player> Hidden = new ArrayList<Player>();
-   public static HashMap<String, Long> LastChestReminderTime = new HashMap<String, Long>();
-   public static HashMap<String, Long> LastDropReminderTime = new HashMap<String, Long>();
-   public static HashMap<Plugin, String> Addons = new HashMap<Plugin, String>();
-   public static VaultAdapter VaultAdapter;
-   public static boolean latestEventCancelled = false;
+    public PluginManager pluginManager;
+    public PluginDescriptionFile PDFile;
+    public static Configuration.Main Config;
+    public static Configuration.Messages Messages;
+    public static HashMap<UUID, Memory> Memories = new HashMap<>();
+    public static List<Player> Hidden = new ArrayList<Player>();
+    public static HashMap<String, Long> LastChestReminderTime = new HashMap<String, Long>();
+    public static HashMap<String, Long> LastDropReminderTime = new HashMap<String, Long>();
+    public static HashMap<Plugin, String> Addons = new HashMap<Plugin, String>();
+    public static VaultAdapter VaultAdapter;
+    public static boolean latestEventCancelled = false;
 
-   public Duties()
-   {
-      Instance = this;
-   }
+    public Duties() {
+        Instance = this;
+    }
 
-   @Override
-   public void onEnable()
-   {
-      pluginManager = this.getServer().getPluginManager();
-      PDFile = this.getDescription();
+    @Override
+    public void onEnable() {
+        pluginManager = this.getServer().getPluginManager();
+        PDFile = this.getDescription();
 
-      Config = ( new Configuration().new Main( new File( Duties.GetInstance().getDataFolder().getAbsolutePath() + File.separator + "config.yml" ) ) );
-      Messages = ( new Configuration().new Messages( new File( Duties.GetInstance().getDataFolder().getAbsolutePath() + File.separator + "messages.yml" ) ) );
+        Config = (new Configuration().new Main(new File(Duties.GetInstance().getDataFolder().getAbsolutePath() + File.separator + "config.yml")));
+        Messages = (new Configuration().new Messages(new File(Duties.GetInstance().getDataFolder().getAbsolutePath() + File.separator + "messages.yml")));
 
-      if( !Config.GetBoolean( "Enabled" ) )
-      {
-         pluginManager.disablePlugin( this );
-      }
+        if (!Config.GetBoolean("Enabled")) {
+            pluginManager.disablePlugin(this);
+        }
 
-      //Initialize Vault
-      if( pluginManager.isPluginEnabled( "Vault" ) )
-         VaultAdapter = new VaultAdapter();
+        //Initialize Vault
+        if (pluginManager.isPluginEnabled("Vault"))
+            VaultAdapter = new VaultAdapter();
 
-      getCommand( "duties" ).setExecutor( new DutiesCommandExecutor() );
-      getCommand( "dutymode" ).setExecutor( new DutymodeCommandExecutor() );
+        getCommand("duties").setExecutor(new DutiesCommandExecutor());
+        getCommand("dutymode").setExecutor(new DutymodeCommandExecutor());
 
-      pluginManager.registerEvents( new PlayerDropItemListener(), this );
-      pluginManager.registerEvents( new PlayerInteractListener(), this );
-      pluginManager.registerEvents( new EntityDeathListener(), this );
-      pluginManager.registerEvents( new RemindListener(), this );
+        pluginManager.registerEvents(new PlayerDropItemListener(), this);
+        pluginManager.registerEvents(new PlayerInteractListener(), this);
+        pluginManager.registerEvents(new EntityDeathListener(), this);
+        pluginManager.registerEvents(new RemindListener(), this);
 
-      if( pluginManager.isPluginEnabled( "TagAPI" ) || pluginManager.isPluginEnabled( "iTag-API" ) || pluginManager.isPluginEnabled( "iTag" ) )
-      {
-         pluginManager.registerEvents( new TagAPIListener(), this );
-         Duties.GetInstance().LogMessage( "TagAPI hooked." );
-      }
+        if (Config.GetBoolean("KeepStateOffline")) {
+            pluginManager.registerEvents(new PlayerJoinListener(), this);
+        } else {
+            pluginManager.registerEvents(new PlayerQuitListener(), this);
+        }
 
-      if( Config.GetBoolean( "KeepStateOffline" ) )
-      {
-         pluginManager.registerEvents( new PlayerJoinListener(), this );
-      }
-      else
-      {
-         pluginManager.registerEvents( new PlayerQuitListener(), this );
-      }
+        LogMessage("by " + PDFile.getAuthors().get(0) + " was successfully enabled!");
+    }
 
-      LogMessage( "by " + PDFile.getAuthors().get( 0 ) + " was successfully enabled!" );
-   }
+    @Override
+    public void onDisable() {
+        this.getServer().savePlayers();
 
-   @Override
-   public void onDisable()
-   {
-      this.getServer().savePlayers();
+        if (Config.GetBoolean("KeepStateOffline")) //TODO
+        {
+            for (Map.Entry<UUID, Memory> playerMemory : Memories.entrySet()) {
+                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerMemory.getKey());
 
-      if( Config.GetBoolean( "KeepStateOffline" ) ) //TODO
-      {
-         for( Map.Entry<UUID, Memory> playerMemory : Memories.entrySet() )
-         {
-            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer( playerMemory.getKey() );
+                if (offlinePlayer.isOnline()) {
+                    if (!ModeSwitcher.DisableDutyMode(offlinePlayer.getPlayer()))
+                        LogMessage("Couldn't disable duty mode for " + offlinePlayer.getName() + "(" + offlinePlayer.getUniqueId() + ").");
+                } else {
+                    Player player = playerMemory.getValue().Player;
 
-            if( offlinePlayer.isOnline() )
-            {
-               if( !ModeSwitcher.DisableDutyMode( offlinePlayer.getPlayer() ) )
-                  LogMessage( "Couldn't disable duty mode for " + offlinePlayer.getName() + "(" + offlinePlayer.getUniqueId() + ")." );
+                    player.loadData();
+
+                    if (!ModeSwitcher.DisableDutyMode(player))
+                        LogMessage("Dutymode inactivation for " + player.getName() + "(" + player.getUniqueId() + ") couldn't complete. Sorry for the inconvenience.");
+
+                    player.saveData();
+                }
             }
-            else
-            {
-               Player player = playerMemory.getValue().Player;
+        } else {
+            for (Memory playerMemory : Memories.values()) {
+                Player player = playerMemory.Player;
 
-               player.loadData();
-
-               if( !ModeSwitcher.DisableDutyMode( player ) )
-                  LogMessage( "Dutymode inactivation for " + player.getName() + "(" + player.getUniqueId() + ") couldn't complete. Sorry for the inconvenience." );
-
-               player.saveData();
+                if (!ModeSwitcher.DisableDutyMode(player))
+                    LogMessage("Dutymode inactivation for " + player.getName() + "(" + player.getUniqueId() + ") couldn't complete. Sorry for the inconvenience.");
             }
-         }
-      }
-      else
-      {
-         for( Memory playerMemory : Memories.values() )
-         {
-            Player player = playerMemory.Player;
+        }
 
-            if( !ModeSwitcher.DisableDutyMode( player ) )
-               LogMessage( "Dutymode inactivation for " + player.getName() + "(" + player.getUniqueId() + ") couldn't complete. Sorry for the inconvenience." );
-         }
-      }
+        LogMessage("by " + PDFile.getAuthors().get(0) + " was successfully disabled!");
+    }
 
-      LogMessage( "by " + PDFile.getAuthors().get( 0 ) + " was successfully disabled!" );
-   }
+    public static Duties GetInstance() {
+        return Instance;
+    }
 
-   public static Duties GetInstance()
-   {
-      return Instance;
-   }
+    public static API GetAPI() {
+        return new API();
+    }
 
-   public static API GetAPI()
-   {
-      return new API();
-   }
-
-   public void LogMessage( String Message )
-   {
-      System.out.println( "[" + PDFile.getName() + " " + PDFile.getVersion() + "] " + Message );
-   }
+    public void LogMessage(String Message) {
+        System.out.println("[" + PDFile.getName() + " " + PDFile.getVersion() + "] " + Message);
+    }
 
 }
