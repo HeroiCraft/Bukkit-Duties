@@ -199,6 +199,8 @@ The easiest setup for this is to give the admins the duties.admin node, mods the
 
 # Configuration
 
+Temp groups are added while duty mode is on, and removed while duty mode is off
+
     Enabled: true #Set to false to disable Duties
     KeepStateOffline: false #If true, the player will be able to leave the game without going off duty
     Actions:
