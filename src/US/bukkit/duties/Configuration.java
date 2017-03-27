@@ -65,7 +65,6 @@ public class Configuration {
 
             output.put("Vault.Permissions", true);
             output.put("Vault.NameFormatting", false);
-            output.put("Vault.Economy", false);
 
             output.put("PreventTeleportCollision", false);
             output.put("Broadcast-duty-changes", false);

@@ -8,7 +8,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class VaultAdapter {
     public Permission permission = null;
-    public Economy economy = null;
     public Chat chat = null;
 
     public VaultAdapter() {
@@ -21,11 +20,6 @@ public class VaultAdapter {
             Duties.Config.SetBoolean("Vault.NameFormatting", false);
             Duties.GetInstance().saveConfig();
             Duties.GetInstance().LogMessage("Vault didn't hook any chat plugin, disabled the setting!");
-        }
-        if (Duties.Config.GetBoolean("Vault.Economy") && (!setupEconomy())) {
-            Duties.Config.SetBoolean("Vault.Economy", false);
-            Duties.GetInstance().saveConfig();
-            Duties.GetInstance().LogMessage("Vault didn't hook any economy plugin, disabled the setting!");
         }
     }
 
@@ -46,15 +40,5 @@ public class VaultAdapter {
         }
 
         return (this.chat != null);
-    }
-
-    private Boolean setupEconomy() {
-        RegisteredServiceProvider<Economy> economyProvider = Duties.GetInstance().getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-        if (economyProvider != null) {
-            this.economy = economyProvider.getProvider();
-            Duties.GetInstance().LogMessage("Vault economy hooked.");
-        }
-
-        return (this.economy != null);
     }
 }

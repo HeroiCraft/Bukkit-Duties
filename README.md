@@ -264,7 +264,6 @@ The easiest setup for this is to give the admins the duties.admin node, mods the
     Vault:
       Permissions: true #If true, Duties will use Vault's permissions system
       NameFormatting: false #If true, Duties will use Vault to format player names
-      Economy: false #If true, Addons will be able to use Vault for economy releated actions
     PreventTeleportCollision: false #Enable if players get stuck in the ground on dutymode teleports
     Broadcast-duty-changes: true #Set to true if the server should broadcast dutymode status updates
     ReminderCooldown: 2400 #The amount of tics between dutymode reminder messages
