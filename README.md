@@ -10,36 +10,33 @@ This will provide staff members a command to toggle between player(with its own 
 **Features:**
 
 - Save your state for later
-- -Location (including where you are looking, and what world you are in...)
-- -Inventory
-- -Armor
-- -Health
-- -Hunger
-- -Experience
-- -Saturation
-- -Exhaustion
-- -Gamemode
-- -Fire ticks
-- -Potion Effects
-- -More... velocity, vehicles, remaining air, bed spawn...
+  - Location (including where you are looking, and what world you are in...)
+  - Inventory
+  - Armor
+  - Health
+  - Hunger
+  - Experience
+  - Saturation
+  - Exhaustion
+  - Gamemode
+  - Fire ticks
+  - Potion Effects
+  - More... velocity, vehicles, remaining air, bed spawn...
 - Keep duty mode on while offline
 - Set other players mode
 - Run configurable commands when enabling and disabling the mode
 - Add temporary permissions while in duty mode
 - Add temporary groups while in duty mode
 - Remind players that they have duty mode on when...
-- -logging in while Keep-state-offline is on
-- -opening chests
-- -dropping items
+  - logging in while Keep-state-offline is on
+  - opening chests
+  - dropping items
 - Broadcasting status changes for example: "ThePf went on duty." Fully customizable.
 - Individual broadcast bypass
 - Option to change every message that the user will get when using Duties
 - Vault permissions and name formatting support
 - List players with dutymode on
 - Chest interact, item drop, death drops, kill drops prevention
-- TagAPI support
-- -custom prefixes
-- -custom suffixes
 
 # Usage
 
