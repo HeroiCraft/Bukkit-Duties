@@ -60,8 +60,6 @@ public class Configuration {
             output.put("Actions.DenyChestInteracts", true);
             output.put("Actions.RemindPlayers", true);
             output.put("Actions.Requirements.Dependencies", Arrays.asList("Vault"));
-            output.put("Actions.NameTagPrefix", "&4!&f");
-            output.put("Actions.NameTagSuffix", "&4!&f");
 
             output.put("Vault.Permissions", true);
             output.put("Vault.NameFormatting", false);

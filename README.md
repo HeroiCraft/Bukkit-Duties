@@ -258,9 +258,6 @@ The easiest setup for this is to give the admins the duties.admin node, mods the
       Requirements:
         Dependencies: #Plugins needed to enable and disable dutymode. (so they aren't disabled when Duties uses their commands)
         - Vault #You can remove this line if you're not using the Vault plugin (not recommended)
-        - TagAPI #You can remove this line if you're not using the TagAPI plugin
-      NameTagPrefix: '&4!&f' #Applies a prefix to player tag name(TagAPI required)
-      NameTagSuffix: '&4!&f' #Applies a suffix to player tag name(TagAPI required)
     Vault:
       Permissions: true #If true, Duties will use Vault's permissions system
       NameFormatting: false #If true, Duties will use Vault to format player names
